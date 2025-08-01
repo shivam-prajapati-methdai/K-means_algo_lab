@@ -110,6 +110,8 @@ class KMeansLab {
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 800;
         this.canvas.height = 600;
+        this.delay = 100;
+        this.lastTime = 0;
         this.draw();
     }
 
@@ -129,14 +131,19 @@ class KMeansLab {
             this.addPoint(pos.x, pos.y);
             this.updateDisplay();
             this.draw();
+            this.lastTime = now;
         });
 
         this.canvas.addEventListener('mousemove', (e) => {
             if (this.isDrawing && !this.isRunning) {
                 const pos = this.getMousePos(e);
+                const now = new Date().getTime();
+                if(now - this.lastTime > this.delay){
                 this.addPoint(pos.x, pos.y);
                 this.updateDisplay();
                 this.draw();
+                this.lastTime = now;
+                }
             }
         });
 
